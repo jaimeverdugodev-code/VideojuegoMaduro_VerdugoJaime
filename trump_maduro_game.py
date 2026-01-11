@@ -200,7 +200,20 @@ class Game:
             self.background.fill((34, 139, 34))  # Verde oscuro
 
     def handle_events(self):
-        for event in pygame.event.get():
+        try:
+            events = pygame.event.get()
+        except Exception as e:
+            print("Error en pygame.event.get():", repr(e))
+            # Intento de recuperación: limpiar cola de eventos y seguir
+            try:
+                pygame.event.clear()
+            except Exception:
+                pass
+            return
+
+        for event in events:
+            # Mostrar información útil para diagnóstico (puedes quitarlo luego)
+            # print("Evento:", event, "type:", getattr(event, 'type', None))
             if event.type == pygame.QUIT:
                 self.running = False
 
